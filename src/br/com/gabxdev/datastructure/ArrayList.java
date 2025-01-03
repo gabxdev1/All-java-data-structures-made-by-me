@@ -1,6 +1,5 @@
 package br.com.gabxdev.datastructure;
 
-
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Objects;
@@ -31,6 +30,16 @@ public class ArrayList<E> extends AbstractList<E> {
     }
 
     @Override
+    public E getFirst() {
+        return this.elementData[0];
+    }
+
+    @Override
+    public E getLast() {
+        return this.elementData[this.size - 1];
+    }
+
+    @Override
     public int indexOf(Object element) {
         if (element == null) {
             for (int i = 0; i < this.size; i++) {
@@ -48,19 +57,23 @@ public class ArrayList<E> extends AbstractList<E> {
 
     @Override
     public int lastIndexOf(Object element) {
-        int index = -1;
         if (element == null) {
-            for (int i = 0; i < this.size; i++) {
+            for (int i = this.size - 1; i >= 0; i--) {
                 if (elementData[i] == null)
-                    index = i;
+                    return i;
             }
         } else {
-            for (int i = 0; i < this.size; i++) {
+            for (int i = this.size - 1; i >= 0; i--) {
                 if (element.equals(this.elementData[i]))
-                    index = i;
+                    return i;
             }
         }
-        return index;
+        return -1;
+    }
+
+    @Override
+    public boolean contains(Object element) {
+        return this.indexOf(element) >= 0;
     }
 
     @Override
@@ -91,6 +104,16 @@ public class ArrayList<E> extends AbstractList<E> {
     }
 
     @Override
+    public void addFirst(E e) {
+        this.add(0, e);
+    }
+
+    @Override
+    public void addLast(E e) {
+        this.add(e);
+    }
+
+    @Override
     public E remove(int index) {
         checkIndex(index);
         int newSize;
@@ -109,11 +132,26 @@ public class ArrayList<E> extends AbstractList<E> {
     }
 
     @Override
+    public E removeFirst() {
+        return this.remove(0);
+    }
+
+    @Override
+    public E removeLast() {
+        return this.remove(this.size - 1);
+    }
+
+    @Override
     public E set(int index, E e) {
         checkIndex(index);
         E oldElement = get(index);
         this.elementData[index] = e;
         return oldElement;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return this.size == 0;
     }
 
     private void resize() {
@@ -142,10 +180,9 @@ public class ArrayList<E> extends AbstractList<E> {
 
     @Override
     public void clear() {
-        for (int i = 0; i < this.size; i++) {
-            elementData[i] = null;
-        }
+        this.elementData = (E[]) new Object[DEFAULT_CAPACITY];
         this.size = 0;
+        System.gc();
     }
 
     @Override
