@@ -1,6 +1,7 @@
 package br.com.gabxdev.datastructure;
 
-import java.lang.reflect.Array;
+
+import java.util.Arrays;
 
 public class ArrayList<T> {
     private T[] elementData;
@@ -22,9 +23,9 @@ public class ArrayList<T> {
         return this.elementData[index];
     }
 
-    public int get(T element) {
+    public int indexOf(T element) {
         for (int i = 0; i < this.size; i++) {
-            if (elementData[i].equals(element))
+            if (element.equals(this.elementData[i]))
                 return i;
         }
         return -1;
@@ -63,11 +64,10 @@ public class ArrayList<T> {
         return oldValue;
     }
 
-    public boolean remove(T element) {
+    public T remove(T element) {
         final int index;
-        if ((index = this.get(element)) < 0) return false;
-        this.remove(index);
-        return true;
+        if ((index = this.indexOf(element)) < 0) return null;
+        return this.remove(index);
     }
 
     public void set(int index, T e) {
@@ -79,9 +79,7 @@ public class ArrayList<T> {
         int newCapacity;
         if (this.size == 1) newCapacity = (int) (this.elementData.length * 2);
         else newCapacity = (int) (this.elementData.length * 1.5);
-        System.arraycopy(this.elementData, 0,
-                this.elementData = (T[]) new Object[newCapacity],
-                0, this.size);
+        this.elementData = Arrays.copyOf(this.elementData, newCapacity);
     }
 
     private void checkIndex(int index) {
