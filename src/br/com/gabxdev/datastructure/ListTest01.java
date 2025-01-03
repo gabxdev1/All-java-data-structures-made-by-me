@@ -1,6 +1,9 @@
 package br.com.gabxdev.datastructure;
 
 
+import java.util.Arrays;
+import java.util.Collections;
+
 public class ListTest01 {
     public static void main(String[] args) {
 
@@ -8,17 +11,25 @@ public class ListTest01 {
         long fim;
 
 
-        ArrayList vetor = new ArrayList(2);
-        vetor.add("A");
-        vetor.add("B");
-        System.out.println(vetor.remove("A"));
-        System.out.println(vetor);
+        ArrayList<String> arrayList = new ArrayList<>(1);
+        arrayList.add("teste 1");
+        arrayList.add("teste 2");
+        arrayList.add("teste 3");
+        arrayList.add("teste 4");
+        arrayList.add("teste 5");
+        arrayList.add(2, "test push");
+        arrayList.remove(2);
+        arrayList.remove("teste 4");
+        System.out.println(arrayList.get(1));
+        System.out.println(arrayList.get("teste 3"));
+        arrayList.set(3, "test");
+        System.out.println(arrayList);
+
 
 
         java.util.ArrayList<String> list = new java.util.ArrayList<>(1);
-        list.add("A");
-        list.remove(new String("asd"));
-        //System.out.println(list.remove(0));
+
+       // list.remove(1);
 
 
 
@@ -34,7 +45,6 @@ public class ListTest01 {
 //        fim = System.currentTimeMillis();
 //        System.out.println("vetor do java: " + (fim-inicio));
 //        System.out.println(list.size());
-
 
 
 //        for (int i = 0; i < 300_000_000; i++) {

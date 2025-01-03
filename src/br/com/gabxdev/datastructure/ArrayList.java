@@ -1,26 +1,28 @@
 package br.com.gabxdev.datastructure;
 
-public class ArrayList {
-    private String[] elementData;
+import java.lang.reflect.Array;
+
+public class ArrayList<T> {
+    private T[] elementData;
     private int size;
     private final int DEFAULT_CAPACITY = 10;
 
     public ArrayList() {
-        this.elementData = new String[DEFAULT_CAPACITY];
+        this.elementData = (T[]) new Object[DEFAULT_CAPACITY];
         this.size = 0;
     }
 
     public ArrayList(int initialCapacity) {
-        this.elementData = new String[initialCapacity];
+        this.elementData = (T[]) new Object[initialCapacity];
         this.size = 0;
     }
 
-    public String get(int index) {
+    public T get(int index) {
         checkIndex(index);
         return this.elementData[index];
     }
 
-    public int get(String element) {
+    public int get(T element) {
         for (int i = 0; i < this.size; i++) {
             if (elementData[i].equals(element))
                 return i;
@@ -32,14 +34,14 @@ public class ArrayList {
         return this.size;
     }
 
-    public void add(String e) {
+    public void add(T e) {
         if (this.size == this.elementData.length)
             this.resize();
         this.elementData[size] = e;
         this.size += 1;
     }
 
-    public void add(int index, String e) {
+    public void add(int index, T e) {
         checkIndex(index);
         if (this.size == this.elementData.length)
             resize();
@@ -51,23 +53,24 @@ public class ArrayList {
         this.size += 1;
     }
 
-    public String remove(int index) {
+    public T remove(int index) {
         checkIndex(index);
-        if ((this.size - 1) > index)
-            System.arraycopy(this.elementData, index + 1, this.elementData, index, this.size - 1);
-        String oldValue = this.elementData[index];
-        this.elementData[this.size -= 1] = null;
+        int newSize;
+        if ((newSize = this.size - 1) > index)
+            System.arraycopy(this.elementData, index + 1, this.elementData, index, newSize - index);
+        T oldValue = this.elementData[index];
+        this.elementData[this.size = newSize] = null;
         return oldValue;
     }
 
-    public boolean remove(String element) {
+    public boolean remove(T element) {
         final int index;
         if ((index = this.get(element)) < 0) return false;
         this.remove(index);
         return true;
     }
 
-    public void set(int index, String e) {
+    public void set(int index, T e) {
         checkIndex(index);
         this.elementData[index] = e;
     }
@@ -77,7 +80,7 @@ public class ArrayList {
         if (this.size == 1) newCapacity = (int) (this.elementData.length * 2);
         else newCapacity = (int) (this.elementData.length * 1.5);
         System.arraycopy(this.elementData, 0,
-                this.elementData = new String[newCapacity],
+                this.elementData = (T[]) new Object[newCapacity],
                 0, this.size);
     }
 
@@ -96,10 +99,5 @@ public class ArrayList {
         if (this.size > 0)
             stringBuilder.append(this.elementData[this.size - 1]);
         return stringBuilder.append("]").toString();
-    }
-
-    public void teste() {
-        System.out.println("size " + this.size);
-        System.out.println("length " + this.elementData.length);
     }
 }
