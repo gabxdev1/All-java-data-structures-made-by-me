@@ -1,48 +1,84 @@
 package br.com.gabxdev.datastructure;
 
 
+import java.util.AbstractList;
 import java.util.Arrays;
+import java.util.Objects;
 
-public class ArrayList<T> {
-    private T[] elementData;
+public class ArrayList<E> extends AbstractList<E> {
+    private E[] elementData;
     private int size;
     private final int DEFAULT_CAPACITY = 10;
 
     public ArrayList() {
-        this.elementData = (T[]) new Object[DEFAULT_CAPACITY];
+        this.elementData = (E[]) new Object[DEFAULT_CAPACITY];
         this.size = 0;
     }
 
     public ArrayList(int initialCapacity) {
-        this.elementData = (T[]) new Object[initialCapacity];
-        this.size = 0;
+        if (initialCapacity > 0) {
+            this.elementData = (E[]) new Object[initialCapacity];
+            this.size = 0;
+        } else {
+            throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
+        }
     }
 
-    public T get(int index) {
+    @Override
+    public E get(int index) {
         checkIndex(index);
         return this.elementData[index];
     }
 
-    public int indexOf(T element) {
-        for (int i = 0; i < this.size; i++) {
-            if (element.equals(this.elementData[i]))
-                return i;
+    @Override
+    public int indexOf(Object element) {
+        if (element == null) {
+            for (int i = 0; i < this.size; i++) {
+                if (elementData[i] == null)
+                    return i;
+            }
+        } else {
+            for (int i = 0; i < this.size; i++) {
+                if (element.equals(this.elementData[i]))
+                    return i;
+            }
         }
         return -1;
     }
 
+    @Override
+    public int lastIndexOf(Object element) {
+        int index = -1;
+        if (element == null) {
+            for (int i = 0; i < this.size; i++) {
+                if (elementData[i] == null)
+                    index = i;
+            }
+        } else {
+            for (int i = 0; i < this.size; i++) {
+                if (element.equals(this.elementData[i]))
+                    index = i;
+            }
+        }
+        return index;
+    }
+
+    @Override
     public int size() {
         return this.size;
     }
 
-    public void add(T e) {
+    @Override
+    public boolean add(E e) {
         if (this.size == this.elementData.length)
             this.resize();
         this.elementData[size] = e;
         this.size += 1;
+        return true;
     }
 
-    public void add(int index, T e) {
+    @Override
+    public void add(int index, E e) {
         checkIndex(index);
         if (this.size == this.elementData.length)
             resize();
@@ -54,25 +90,30 @@ public class ArrayList<T> {
         this.size += 1;
     }
 
-    public T remove(int index) {
+    @Override
+    public E remove(int index) {
         checkIndex(index);
         int newSize;
         if ((newSize = this.size - 1) > index)
             System.arraycopy(this.elementData, index + 1, this.elementData, index, newSize - index);
-        T oldValue = this.elementData[index];
+        E oldValue = this.elementData[index];
         this.elementData[this.size = newSize] = null;
         return oldValue;
     }
 
-    public T remove(T element) {
+    @Override
+    public boolean remove(Object element) {
         final int index;
-        if ((index = this.indexOf(element)) < 0) return null;
-        return this.remove(index);
+        if ((index = this.indexOf(element)) < 0) return false;
+        return this.remove(index) != null;
     }
 
-    public void set(int index, T e) {
+    @Override
+    public E set(int index, E e) {
         checkIndex(index);
+        E oldElement = get(index);
         this.elementData[index] = e;
+        return oldElement;
     }
 
     private void resize() {
@@ -97,5 +138,37 @@ public class ArrayList<T> {
         if (this.size > 0)
             stringBuilder.append(this.elementData[this.size - 1]);
         return stringBuilder.append("]").toString();
+    }
+
+    @Override
+    public void clear() {
+        for (int i = 0; i < this.size; i++) {
+            elementData[i] = null;
+        }
+        this.size = 0;
+    }
+
+    @Override
+    public ArrayList<E> subList(int fromIndex, int toIndex) {
+        checkIndex(toIndex);
+        if (!(fromIndex <= toIndex)) throw new IllegalArgumentException("fromIndex cannot be greater than toIndex");
+        int newSize = (toIndex - fromIndex) + 1;
+        ArrayList<E> newArrayList = new ArrayList<>(newSize);
+        newArrayList.size = newSize;
+        System.arraycopy(this.elementData, fromIndex, newArrayList.elementData, 0, newSize);
+        return newArrayList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        ArrayList<?> arrayList = (ArrayList<?>) o;
+        return size == arrayList.size && Objects.deepEquals(elementData, arrayList.elementData);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), Arrays.hashCode(elementData), size);
     }
 }
