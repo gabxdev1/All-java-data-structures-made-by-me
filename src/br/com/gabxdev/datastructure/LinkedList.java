@@ -114,7 +114,7 @@ public class LinkedList<T> {
         return this.removeFirst();
     }
 
-    public boolean remove (T element) {
+    public boolean remove(T element) {
         if (element == null) {
             Node<T> x = this.head;
             for (int i = 0; i < this.size; i++) {
@@ -138,8 +138,8 @@ public class LinkedList<T> {
     }
 
     public T remove(int index) {
-       checkIndex(index);
-       return unlink(node(index));
+        checkIndex(index);
+        return unlink(node(index));
     }
 
     public T removeFirst() {
@@ -170,6 +170,14 @@ public class LinkedList<T> {
         return data;
     }
 
+    public T set(int index, T element) {
+        checkIndex(index);
+        Node<T> x = this.node(index);
+        T oldValue = x.data;
+        x.data = element;
+        return oldValue;
+    }
+
     T unlink(Node<T> x) {
         final T element = x.data;
         final Node<T> prev = x.prev;
@@ -184,6 +192,18 @@ public class LinkedList<T> {
             this.size--;
         }
         return element;
+    }
+
+    public void clear() {
+        for (Node<T> x = this.head; x != null;) {
+            Node<T> next = x.next;
+            x.data = null;
+            x.next = null;
+            x.prev = null;
+            x = next;
+        }
+        this.head = this.tail = null;
+        size = 0;
     }
 
     private void checkIndex(int index) {
