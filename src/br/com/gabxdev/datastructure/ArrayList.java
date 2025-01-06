@@ -1,10 +1,9 @@
 package br.com.gabxdev.datastructure;
 
-import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class ArrayList<E> extends AbstractList<E> {
+public class ArrayList<E> {
     private E[] elementData;
     private int size;
     private final int DEFAULT_CAPACITY = 10;
@@ -23,23 +22,19 @@ public class ArrayList<E> extends AbstractList<E> {
         }
     }
 
-    @Override
     public E get(int index) {
         checkIndex(index);
         return this.elementData[index];
     }
 
-    @Override
     public E getFirst() {
         return this.elementData[0];
     }
 
-    @Override
     public E getLast() {
         return this.elementData[this.size - 1];
     }
 
-    @Override
     public int indexOf(Object element) {
         if (element == null) {
             for (int i = 0; i < this.size; i++) {
@@ -55,7 +50,6 @@ public class ArrayList<E> extends AbstractList<E> {
         return -1;
     }
 
-    @Override
     public int lastIndexOf(Object element) {
         if (element == null) {
             for (int i = this.size - 1; i >= 0; i--) {
@@ -71,17 +65,14 @@ public class ArrayList<E> extends AbstractList<E> {
         return -1;
     }
 
-    @Override
     public boolean contains(Object element) {
         return this.indexOf(element) >= 0;
     }
 
-    @Override
     public int size() {
         return this.size;
     }
 
-    @Override
     public boolean add(E e) {
         if (this.size == this.elementData.length)
             this.resize();
@@ -90,7 +81,6 @@ public class ArrayList<E> extends AbstractList<E> {
         return true;
     }
 
-    @Override
     public void add(int index, E e) {
         checkIndex(index);
         if (this.size == this.elementData.length)
@@ -103,17 +93,14 @@ public class ArrayList<E> extends AbstractList<E> {
         this.size += 1;
     }
 
-    @Override
     public void addFirst(E e) {
         this.add(0, e);
     }
 
-    @Override
     public void addLast(E e) {
         this.add(e);
     }
 
-    @Override
     public E remove(int index) {
         checkIndex(index);
         int newSize;
@@ -124,24 +111,20 @@ public class ArrayList<E> extends AbstractList<E> {
         return oldValue;
     }
 
-    @Override
     public boolean remove(Object element) {
         final int index;
         if ((index = this.indexOf(element)) < 0) return false;
         return this.remove(index) != null;
     }
 
-    @Override
     public E removeFirst() {
         return this.remove(0);
     }
 
-    @Override
     public E removeLast() {
         return this.remove(this.size - 1);
     }
 
-    @Override
     public E set(int index, E e) {
         checkIndex(index);
         E oldElement = get(index);
@@ -149,7 +132,6 @@ public class ArrayList<E> extends AbstractList<E> {
         return oldElement;
     }
 
-    @Override
     public boolean isEmpty() {
         return this.size == 0;
     }
@@ -167,25 +149,24 @@ public class ArrayList<E> extends AbstractList<E> {
                     "Index %d out of bounds for length %d", index, this.size));
     }
 
-    @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("[");
         for (int i = 0; i < this.size - 1; i++) {
             stringBuilder.append(elementData[i]).append(", ");
         }
+
         if (this.size > 0)
             stringBuilder.append(this.elementData[this.size - 1]);
         return stringBuilder.append("]").toString();
     }
 
-    @Override
     public void clear() {
-        this.elementData = (E[]) new Object[DEFAULT_CAPACITY];
+        for (int i = 0; i < this.size; i++) {
+            this.elementData[i] = null;
+        }
         this.size = 0;
-        System.gc();
     }
 
-    @Override
     public ArrayList<E> subList(int fromIndex, int toIndex) {
         checkIndex(toIndex);
         if (!(fromIndex <= toIndex)) throw new IllegalArgumentException("fromIndex cannot be greater than toIndex");
@@ -196,7 +177,6 @@ public class ArrayList<E> extends AbstractList<E> {
         return newArrayList;
     }
 
-    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
@@ -204,7 +184,6 @@ public class ArrayList<E> extends AbstractList<E> {
         return size == arrayList.size && Objects.deepEquals(elementData, arrayList.elementData);
     }
 
-    @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), Arrays.hashCode(elementData), size);
     }

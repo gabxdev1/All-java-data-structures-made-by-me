@@ -30,3 +30,4 @@ bin/
 .DS_Store
 
 src/br/com/gabxdev/test/
+src/br/com/gabxdev/datastructure/Stack.java
