@@ -2,8 +2,8 @@ package br.com.gabxdev.datastructure;
 
 public class Node<T> {
     protected T data;
-    protected Node next;
-    protected Node prev;
+    protected Node<T> next;
+    protected Node<T> prev;
 
     public Node(T data) {
         this.data = data;
@@ -11,7 +11,7 @@ public class Node<T> {
         this.prev = null;
     }
 
-    public Node(T data, Node next, Node prev) {
+    public Node(T data, Node<T> next, Node<T> prev) {
         this.data = data;
         this.next = next;
         this.prev = prev;

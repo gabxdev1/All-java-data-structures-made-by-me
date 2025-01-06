@@ -82,7 +82,7 @@ public class ArrayList<E> {
     }
 
     public void add(int index, E e) {
-        checkIndex(index);
+        checkPositionIndex(index);
         if (this.size == this.elementData.length)
             resize();
         System.arraycopy(this.elementData, index,
@@ -147,6 +147,12 @@ public class ArrayList<E> {
         if (!(index >= 0 && index < this.size))
             throw new IndexOutOfBoundsException(String.format(
                     "Index %d out of bounds for length %d", index, this.size));
+    }
+
+    private void checkPositionIndex(int index) {
+        if (!(index >= 0 && index <= this.size))
+            throw new IndexOutOfBoundsException(
+                    String.format("Index: %d, Size: %d", index, this.size));
     }
 
     public String toString() {

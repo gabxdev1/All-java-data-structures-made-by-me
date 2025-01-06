@@ -3,8 +3,8 @@ package br.com.gabxdev.datastructure;
 import java.util.NoSuchElementException;
 
 public class LinkedList<T> {
-    private Node head;
-    private Node tail;
+    private Node<T> head;
+    private Node<T> tail;
     private int size;
 
     public LinkedList() {
@@ -61,7 +61,7 @@ public class LinkedList<T> {
     }
 
     void linkBefore(T element, Node<T> succ) {
-        Node pred = succ.prev;
+        Node<T> pred = succ.prev;
         Node<T> newNode = new Node<>(element, succ, pred);
         succ.prev = newNode;
         pred.next = newNode;
